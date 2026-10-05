@@ -73,5 +73,12 @@ func main() {
 	http.HandleFunc("/register/start", registerStart)
 
 	fmt.Println("Listening on http://localhost:8080")
+
+	database, err := NewSQLiteDatabase("trading.db")
+	if err != nil {
+		panic(err)
+	}
+	defer database.Close()
+
 	http.ListenAndServe(":8080", nil)
 }
