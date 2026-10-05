@@ -6,14 +6,40 @@ import (
 )
 
 type RegistrationChallenge struct {
-	ID        string
-	Email     string
-	CodeHash  string
-	ExpiresAt time.Time
+	ID         string
+	Email      string
+	CodeHash   string
+	ExpiresAt  time.Time
+	ConsumedAt *time.Time
 }
 
 type Database interface {
-	SaveRegistrationChallenge(context.Context, RegistrationChallenge) error
-	GetRegistrationChallenge(context.Context, string) (RegistrationChallenge, error)
-	DeleteRegistrationChallenge(context.Context, string) error
+	CreateUser(
+		ctx context.Context,
+		email string,
+		passwordHash string,
+		lastIP string,
+	) error
+
+	UserExists(
+		ctx context.Context,
+		email string,
+	) (bool, error)
+
+	SaveRegistrationChallenge(
+		context.Context,
+		RegistrationChallenge,
+	) error
+
+	GetRegistrationChallenge(
+		context.Context,
+		string,
+	) (RegistrationChallenge, error)
+
+	CompleteRegistration(
+		context.Context,
+		string,
+		string,
+		string,
+	) error
 }
