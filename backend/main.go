@@ -58,6 +58,14 @@ func registerStart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintln(w, "Registration started for", request.Email)
+
+	code, err := generateCode()
+	if err != nil {
+		http.Error(w, "Could not generate code", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Println("Verification code:", code)
 }
 
 func main() {
