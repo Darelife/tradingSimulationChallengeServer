@@ -20,7 +20,7 @@ func sendVerificationEmail(to string, code string) error {
 
 	auth := smtp.PlainAuth("", username, password, host)
 
-	message := []byte(fmt.Sprintf(
+	message := fmt.Appendf(nil,
 		"From: %s\r\n"+
 			"To: %s\r\n"+
 			"Subject: Trading simulation verification code\r\n"+
@@ -30,7 +30,7 @@ func sendVerificationEmail(to string, code string) error {
 		from,
 		to,
 		code,
-	))
+	)
 
 	return smtp.SendMail(
 		net.JoinHostPort(host, port),
