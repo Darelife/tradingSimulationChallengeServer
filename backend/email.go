@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func sendVerificationEmail(to string, code string) error {
+func sendCodeEmail(to string, subject string, instruction string, code string) error {
 	host := os.Getenv("SMTP_HOST")
 	port := os.Getenv("SMTP_PORT")
 	username := os.Getenv("SMTP_USERNAME")
@@ -23,12 +23,14 @@ func sendVerificationEmail(to string, code string) error {
 	message := fmt.Appendf(nil,
 		"From: %s\r\n"+
 			"To: %s\r\n"+
-			"Subject: Trading simulation verification code\r\n"+
+			"Subject: %s\r\n"+
 			"Content-Type: text/plain; charset=UTF-8\r\n"+
 			"\r\n"+
-			"Your verification code is: %s\r\n",
+			"%s %s\r\n",
 		from,
 		to,
+		subject,
+		instruction,
 		code,
 	)
 
